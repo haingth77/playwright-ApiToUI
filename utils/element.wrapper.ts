@@ -10,18 +10,18 @@ export class ElementWrapper {
     this._basePage = basePage;
   }
 
-  public async getElement() {
+  public getElement() {
     // let element =
     return this._locator;
   }
 
   public async getAttribute(attribute: string) {
-    return await (await this.getElement()).getAttribute(attribute);
+    return await (this.getElement()).getAttribute(attribute);
   }
 
   public async input(content: string) {
-    await (await this.getElement()).clear({ force: true });
-    await (await this.getElement()).fill(content, { force: true });
+    await (this.getElement()).clear({ force: true });
+    await (this.getElement()).fill(content, { force: true });
   }
 
   public async click(force = false) {
@@ -29,7 +29,7 @@ export class ElementWrapper {
 
     while (retry !== 3) {
       try {
-        await (await this.getElement()).click({ force: force, timeout: 60000 });
+        await (this.getElement()).click({ force: force, timeout: 60000 });
         retry = 3;
       } catch (error) {
         if (
@@ -47,67 +47,67 @@ export class ElementWrapper {
   }
 
   public async check() {
-    await (await this.getElement()).check({ force: true, timeout: 60000 });
+    await (this.getElement()).check({ force: true, timeout: 60000 });
   }
   public async checkByClick(force = false) {
-    let isChecked = await (await this.getElement()).isChecked();
+    let isChecked = await (this.getElement()).isChecked();
 
     if (!isChecked) {
-      await (await this.getElement()).click({ force: force, timeout: 60000 });
+      await (this.getElement()).click({ force: force, timeout: 60000 });
     }
   }
   public async uncheckByClick(force = false) {
-    let isChecked = await (await this.getElement()).isChecked();
+    let isChecked = await (this.getElement()).isChecked();
 
     if (isChecked) {
-      await (await this.getElement()).click({ force: force, timeout: 60000 });
+      await (this.getElement()).click({ force: force, timeout: 60000 });
     }
   }
 
   public async uncheck() {
-    await (await this.getElement()).uncheck({ force: true, timeout: 60000 });
+    await (this.getElement()).uncheck({ force: true, timeout: 60000 });
   }
 
   public async waitForElementDisplay() {
-    await (await this.getElement()).waitFor({ state: "visible", timeout: 60000 });
+    await (this.getElement()).waitFor({ state: "visible", timeout: 60000 });
   }
 
   public async waitForElementNotDisplay() {
-    await (await this.getElement()).waitFor({ state: "hidden", timeout: 60000 });
+    await (this.getElement()).waitFor({ state: "hidden", timeout: 60000 });
   }
 
   public async getText() {
-    return await (await this.getElement()).textContent();
+    return await (this.getElement()).textContent();
   }
 
   public async inputValue() {
-    return await (await this.getElement()).inputValue();
+    return await (this.getElement()).inputValue();
   }
 
   public async setInputFiles(path: string | string[]) {
-    return await (await this.getElement()).setInputFiles(path);
+    return await (this.getElement()).setInputFiles(path);
   }
 
   // validations
   public async IsEnable() {
-    const element = await this.getElement();
+    const element = this.getElement();
     await expect(element).toBeEnabled({ timeout: 120_000 });
   }
 
   public async isDisplayed() {
-    const element = await this.getElement()
+    const element = this.getElement()
     await expect(element).toBeVisible({ timeout: 120000 });
   }
 
   public async isNotDisplayed() {
-    await expect(await this.getElement()).toBeHidden({ timeout: 120000 });
+    await expect(this.getElement()).toBeHidden({ timeout: 120000 });
   }
 
   public async isDisplayedTF() {
-    return await (await this.getElement()).isVisible({ timeout: 120000 });
+    return await (this.getElement()).isVisible({ timeout: 120000 });
   }
 
   public async uploadFileName(filename: string | string[]) {
-    await (await this.getElement()).setInputFiles(filename);
+    await (this.getElement()).setInputFiles(filename);
   }
 }
