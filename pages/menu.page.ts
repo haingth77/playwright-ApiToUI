@@ -24,8 +24,6 @@ export class MenuPage extends BasePage {
     btnMenuMaintenance = new ElementWrapper(`//li[@class='oxd-main-menu-item-wrapper']/a/span[text() = 'Maintenance']`, this)
     btnMenuClaim = new ElementWrapper(`//li[@class='oxd-main-menu-item-wrapper']/a/span[text() = 'Claim']`, this)
 
-    tltEmployeeList = new ElementWrapper(`//nav[@aria-label='Topbar Menu']//ul//li//a[text() = 'Employee List']`, this)
-
     clickMenu: Record<MenuList, () => Promise<void>> = {
         Admin: async() => {await this.btnMenuAdmin.click()},
         PIM: async() => {await this.btnMenuPIM.click()},
