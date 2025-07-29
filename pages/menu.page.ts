@@ -27,21 +27,21 @@ export class MenuPage extends BasePage {
     tltEmployeeList = new ElementWrapper(`//nav[@aria-label='Topbar Menu']//ul//li//a[text() = 'Employee List']`, this)
 
     clickMenu: Record<MenuList, () => Promise<void>> = {
-        Admin: async() => {this.btnMenuAdmin.click()},
-        PIM: async() => {this.btnMenuPIM.click()},
-        Leave: async() => {this.btnMenuLeave.click()},
-        Time: async() => {this.btnMenuTime.click()},
-        Recruitment: async() => {this.btnMenuRecruitment.click()},
-        'My Info': async() => {this.btnMenuMyInfo.click()},
-        Performance: async() => {this.btnMenuPerformance.click()},
-        Dashboard: async() => {this.btnMenuDashboard.click()},
-        Directory: async() => {this.btnMenuMaintenance.click()},
-        Claim: async() => {this.btnMenuClaim.click()},
+        Admin: async() => {await this.btnMenuAdmin.click()},
+        PIM: async() => {await this.btnMenuPIM.click()},
+        Leave: async() => {await this.btnMenuLeave.click()},
+        Time: async() => {await this.btnMenuTime.click()},
+        Recruitment: async() => {await this.btnMenuRecruitment.click()},
+        'My Info': async() => {await this.btnMenuMyInfo.click()},
+        Performance: async() => {await this.btnMenuPerformance.click()},
+        Dashboard: async() => {await this.btnMenuDashboard.click()},
+        Directory: async() => {await this.btnMenuMaintenance.click()},
+        Claim: async() => {await this.btnMenuClaim.click()},
     }
     
     public async accessToMenuItem(menuItem: MenuList) {
         //await this.btnOpenMenu.click()
-        await this.clickMenu[menuItem]
+        await this.clickMenu[menuItem]()
         await this.waitForPageLoad()
     } 
 }

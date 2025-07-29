@@ -1,12 +1,16 @@
-import { Locator, expect } from "@playwright/test";
-import { BasePage } from "@/utils/base.page";
+import { Locator, expect } from '@playwright/test';
+import { BasePage } from '@/utils/base.page';
 
 export class ElementWrapper {
   private _locator!: Locator;
   private _basePage!: BasePage;
 
-  constructor(locator: string, basePage: BasePage) {
-    this._locator = basePage.getPage.locator(locator);
+  constructor(locator: string | Locator, basePage: BasePage) {
+    if (typeof locator === 'string') {
+      this._locator = basePage.getPage.locator(locator);
+    } else {
+      this._locator = locator;
+    }
     this._basePage = basePage;
   }
 
@@ -16,12 +20,12 @@ export class ElementWrapper {
   }
 
   public async getAttribute(attribute: string) {
-    return await (this.getElement()).getAttribute(attribute);
+    return await this.getElement().getAttribute(attribute);
   }
 
   public async input(content: string) {
-    await (this.getElement()).clear({ force: true });
-    await (this.getElement()).fill(content, { force: true });
+    await this.getElement().clear({ force: true });
+    await this.getElement().fill(content, { force: true });
   }
 
   public async click(force = false) {
@@ -29,12 +33,13 @@ export class ElementWrapper {
 
     while (retry !== 3) {
       try {
-        await (this.getElement()).click({ force: force, timeout: 60000 });
+        await this.getElement().click({ force: force, timeout: 60000 });
         retry = 3;
       } catch (error) {
         if (
           error instanceof Error &&
-          (error.message.includes("Element is outside") || error.message.includes("Element is not visible"))
+          (error.message.includes('Element is outside') ||
+            error.message.includes('Element is not visible'))
         ) {
           await this._basePage.reloadPage();
           await this._basePage.waitForPageLoad();
@@ -47,45 +52,45 @@ export class ElementWrapper {
   }
 
   public async check() {
-    await (this.getElement()).check({ force: true, timeout: 60000 });
+    await this.getElement().check({ force: true, timeout: 60000 });
   }
   public async checkByClick(force = false) {
-    let isChecked = await (this.getElement()).isChecked();
+    let isChecked = await this.getElement().isChecked();
 
     if (!isChecked) {
-      await (this.getElement()).click({ force: force, timeout: 60000 });
+      await this.getElement().click({ force: force, timeout: 60000 });
     }
   }
   public async uncheckByClick(force = false) {
-    let isChecked = await (this.getElement()).isChecked();
+    let isChecked = await this.getElement().isChecked();
 
     if (isChecked) {
-      await (this.getElement()).click({ force: force, timeout: 60000 });
+      await this.getElement().click({ force: force, timeout: 60000 });
     }
   }
 
   public async uncheck() {
-    await (this.getElement()).uncheck({ force: true, timeout: 60000 });
+    await this.getElement().uncheck({ force: true, timeout: 60000 });
   }
 
   public async waitForElementDisplay() {
-    await (this.getElement()).waitFor({ state: "visible", timeout: 60000 });
+    await this.getElement().waitFor({ state: 'visible', timeout: 60000 });
   }
 
   public async waitForElementNotDisplay() {
-    await (this.getElement()).waitFor({ state: "hidden", timeout: 60000 });
+    await this.getElement().waitFor({ state: 'hidden', timeout: 60000 });
   }
 
   public async getText() {
-    return await (this.getElement()).textContent();
+    return await this.getElement().textContent();
   }
 
   public async inputValue() {
-    return await (this.getElement()).inputValue();
+    return await this.getElement().inputValue();
   }
 
   public async setInputFiles(path: string | string[]) {
-    return await (this.getElement()).setInputFiles(path);
+    return await this.getElement().setInputFiles(path);
   }
 
   // validations
@@ -95,7 +100,7 @@ export class ElementWrapper {
   }
 
   public async isDisplayed() {
-    const element = this.getElement()
+    const element = this.getElement();
     await expect(element).toBeVisible({ timeout: 120000 });
   }
 
@@ -104,10 +109,10 @@ export class ElementWrapper {
   }
 
   public async isDisplayedTF() {
-    return await (this.getElement()).isVisible({ timeout: 120000 });
+    return await this.getElement().isVisible({ timeout: 120000 });
   }
 
   public async uploadFileName(filename: string | string[]) {
-    await (this.getElement()).setInputFiles(filename);
+    await this.getElement().setInputFiles(filename);
   }
 }
