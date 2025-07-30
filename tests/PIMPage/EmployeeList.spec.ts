@@ -59,12 +59,21 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
       await pimPage.fillNewEmployeeInfo(userTest);
     });
 
-    // await test.step(`Step 6: Verify that user information is filled successfully`, async () => {
-    //   await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
-    //   await expect(
-    //     notification.getNotificationContent('Successfully Saved').getElement(),
-    //   ).toBeVisible();
-    // });
+    await test.step(`Step 6: Verify that user information is filled successfully`, async () => {
+      await Promise.all([
+        page.waitForResponse(
+          (response) =>
+            response.request().method() === 'POST' &&
+            response.url().includes('api/v2/pim/employees') &&
+            response.status() === 200,
+        ),
+        pimPage.waitForPageLoad(),
+      ]);
+      await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
+      await expect(
+        notification.getNotificationContent('Successfully Saved').getElement(),
+      ).toBeVisible();
+    });
 
     await test.step(`Step 7: Navigate to Employee List page`, async () => {
       await menuPage.accessToMenuItem('PIM');
@@ -78,24 +87,45 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
       await expect(
         pimPage.getPage.getByText(`${userTest.first_name} ${userTest.middle_name}`),
       ).toBeVisible();
-      await expect(pimPage.getPage.getByText(userTest.employee_id.toString(), {exact: true})).toBeVisible();
+      await expect(
+        pimPage.getPage.getByText(userTest.employee_id.toString(), { exact: true }),
+      ).toBeVisible();
       await expect(pimPage.getPage.getByText(userTest.last_name)).toBeVisible();
     });
 
     await test.step(`Step 10: Click on 'Delete' button`, async () => {
       await pimPage.btnDelete.click();
       await pimPage.btnConfirmDelete.click();
+      await page.waitForResponse(
+        (response) =>
+          response.request().method() === 'DELETE' &&
+          response.url().includes('api/v2/pim/employees') &&
+          response.status() === 200,
+      );
       await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
-      await expect(notification.getNotificationContent('Successfully Deleted').getElement()).toBeVisible();
-      await UtilsServices.delay(1000)
+      await expect(
+        notification.getNotificationContent('Successfully Deleted').getElement(),
+      ).toBeVisible();
+      await page.waitForResponse(
+        (response) =>
+          response.request().method() === 'GET' &&
+          response.url().includes('api/v2/pim/employees') &&
+          response.status() === 200,
+      );
       await expect(notification.getNotificationTitle('Info').getElement()).toBeVisible();
-      await expect(notification.getNotificationContent('No records found').getElement()).toBeVisible();
+      await expect(
+        notification.getNotificationContent('No Records Found').getElement(),
+      ).toBeVisible();
     });
 
     await test.step(`Step 11: Verify that employee information is deleted successfully`, async () => {
       await pimPage.searchEmployeeById(userTest.employee_id);
-      await expect(pimPage.getPage.getByText(`${userTest.first_name} ${userTest.middle_name}`)).not.toBeVisible();
-      await expect(pimPage.getPage.getByText(userTest.employee_id.toString(), {exact: true})).not.toBeVisible();
-    })
+      await expect(
+        pimPage.getPage.getByText(`${userTest.first_name} ${userTest.middle_name}`),
+      ).not.toBeVisible();
+      await expect(
+        pimPage.getPage.getByText(userTest.employee_id.toString(), { exact: true }),
+      ).not.toBeVisible();
+    });
   });
 });
