@@ -1,5 +1,5 @@
 import { Locator, expect } from '@playwright/test';
-import { BasePage } from '@/utils/base.page';
+import { BasePage } from '@utils/base.page';
 
 export class ElementWrapper {
   private _locator!: Locator;
@@ -24,8 +24,8 @@ export class ElementWrapper {
   }
 
   public async input(content: string) {
-    await this.getElement().clear({ force: true });
-    await this.getElement().fill(content, { force: true });
+    await this.getElement().clear({ force: true, timeout: 60000 });
+    await this.getElement().fill(content, { force: true, timeout: 60000 });
   }
 
   public async click(force = false) {

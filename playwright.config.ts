@@ -12,7 +12,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 2 : undefined, // Giới hạn thread khi chạy CI
 
   use: {
-    baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Thay bằng URL thật
+    // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Thay bằng URL thật
     headless: true,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
