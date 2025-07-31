@@ -1,7 +1,7 @@
-import { Page } from "@playwright/test";
-import * as path from "path";
-import * as fs from "fs";
-import utilsServices from "./utils.services";
+import { Page } from '@playwright/test';
+import * as path from 'path';
+import * as fs from 'fs';
+import utilsServices from './utils.services';
 
 export class BasePage {
   private _page: Page;
@@ -33,12 +33,21 @@ export class BasePage {
     await this._page.waitForLoadState();
   }
 
-  public async waitForAllAPICallSuccess() {
-    await this._page.waitForLoadState("networkidle");
+  public async waitForAPI(
+    uri: string,
+    status: number,
+    method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
+  ) {
+    this._page.waitForResponse(
+      (response) =>
+        response.url().includes(uri) &&
+        response.status() === status &&
+        (method ? response.request().method() === method : true),
+    );
   }
 
   public async waitForFileChooserEvent() {
-    return await this._page.waitForEvent("filechooser");
+    return await this._page.waitForEvent('filechooser');
   }
 
   public async reloadPage() {
@@ -50,13 +59,13 @@ export class BasePage {
   }
 
   public async takeScreenshot(name?: string) {
-    const screenshotsDir = path.resolve("screenshots");
+    const screenshotsDir = path.resolve('screenshots');
     if (!fs.existsSync(screenshotsDir)) {
       fs.mkdirSync(screenshotsDir, { recursive: true });
     }
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const sanitizedName = await utilsServices.sanitizeFilename(name || "");
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const sanitizedName = await utilsServices.sanitizeFilename(name || '');
     const filename = `${sanitizedName}-${timestamp}.png`;
     const filepath = path.join(screenshotsDir, filename);
 

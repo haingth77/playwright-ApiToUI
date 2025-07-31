@@ -61,12 +61,7 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
 
     await test.step(`Step 6: Verify that user information is filled successfully`, async () => {
       await Promise.all([
-        page.waitForResponse(
-          (response) =>
-            response.request().method() === 'POST' &&
-            response.url().includes('api/v2/pim/employees') &&
-            response.status() === 200,
-        ),
+        pimPage.waitForAPI('api/v2/pim/employees', 200, 'POST'),
         pimPage.waitForPageLoad(),
       ]);
       await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
@@ -81,6 +76,10 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
 
     await test.step(`Step 8: Search employee by ID`, async () => {
       await pimPage.searchEmployeeById(userTest.employee_id);
+      await Promise.all([
+        pimPage.waitForAPI('api/v2/pim/employees', 200, 'GET'),
+        pimPage.waitForPageLoad(),
+      ]);
     });
 
     await test.step(`Step 9: Verify that employee information is displayed correctly`, async () => {
@@ -96,22 +95,13 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
     await test.step(`Step 10: Click on 'Delete' button`, async () => {
       await pimPage.btnDelete.click();
       await pimPage.btnConfirmDelete.click();
-      await page.waitForResponse(
-        (response) =>
-          response.request().method() === 'DELETE' &&
-          response.url().includes('api/v2/pim/employees') &&
-          response.status() === 200,
-      );
+      await pimPage.waitForAPI('api/v2/pim/employees', 200, 'DELETE');
       await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
       await expect(
         notification.getNotificationContent('Successfully Deleted').getElement(),
       ).toBeVisible();
-      await page.waitForResponse(
-        (response) =>
-          response.request().method() === 'GET' &&
-          response.url().includes('api/v2/pim/employees') &&
-          response.status() === 200,
-      );
+
+      await pimPage.waitForAPI('api/v2/pim/employees', 200, 'GET');
       await expect(notification.getNotificationTitle('Info').getElement()).toBeVisible();
       await expect(
         notification.getNotificationContent('No Records Found').getElement(),

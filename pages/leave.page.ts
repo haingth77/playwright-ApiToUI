@@ -21,4 +21,7 @@ export class LeavePage extends BasePage {
     this.getPage.getByRole('link', { name: 'Assign Leave' }),
     this,
   );
+  // ddbLeaveType = new ElementWrapper(this.getPage.getByText('-- Select --'), this);
+  // tbtVacation = new ElementWrapper(this.getPage.getByText('CAN - Vacation'), this)
+  // timeFromDate = new ElementWrapper(this.getPage.getByText('From Date').locator)
 }
