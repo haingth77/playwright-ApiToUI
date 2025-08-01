@@ -1,7 +1,7 @@
-import { LeavePage } from '@/pages/leave.page';
-import { LoginPage } from '@/pages/login.page';
-import { MenuPage } from '@/pages/menu.page';
-import { NotificationComponent } from '@/utils/notification.component';
+import { LeavePage } from '@pages/leave.page';
+import { LoginPage } from '@pages/login.page';
+import { MenuPage } from '@pages/menu.page';
+import { NotificationComponent } from '@utils/notification.component';
 import { test, expect } from '@playwright/test';
 import { getUrl } from '@utils/environment';
 

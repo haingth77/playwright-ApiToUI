@@ -2,15 +2,7 @@ import { BasePage } from '@utils/base.page';
 import { Page } from '@playwright/test';
 import { ElementWrapper } from '@utils/element.wrapper';
 import { NotificationComponent } from '@utils/notification.component';
-
-export interface UserInfor {
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-  employee_id: number;
-  username: string;
-  password: string;
-}
+import { UserInfo } from '@utils/interface.type';
 
 export class PIMPage extends BasePage {
   constructor(page: Page) {
@@ -53,9 +45,12 @@ export class PIMPage extends BasePage {
     this,
   );
   btnSave = new ElementWrapper(this.getPage.getByText('Save'), this);
-  btnSearch = new ElementWrapper(this.getPage.getByText('Search'),this)
-  btnDelete = new ElementWrapper(`//button//i[contains(@class, 'trash')]`, this)
-  btnConfirmDelete = new ElementWrapper(this.getPage.getByRole('button', {name: 'Yes, Delete'}), this)
+  btnSearch = new ElementWrapper(this.getPage.getByText('Search'), this);
+  btnDelete = new ElementWrapper(`//button//i[contains(@class, 'trash')]`, this);
+  btnConfirmDelete = new ElementWrapper(
+    this.getPage.getByRole('button', { name: 'Yes, Delete' }),
+    this,
+  );
   // Personal Details
 
   public async addEmployee() {
@@ -63,7 +58,7 @@ export class PIMPage extends BasePage {
     await this.waitForPageLoad();
   }
 
-  public async fillNewEmployeeInfo(userInfo: UserInfor) {
+  public async fillNewEmployeeInfo(userInfo: UserInfo) {
     await this.tbxFirstName.input(userInfo.first_name);
     await this.tbxMiddleName.input(userInfo.middle_name);
     await this.tbxLastName.input(userInfo.last_name);
@@ -80,9 +75,8 @@ export class PIMPage extends BasePage {
     await this.tbxEmployeeId.input(employeeId.toString());
     await this.btnSearch.click();
     await Promise.all([
-      this.getPage.waitForResponse(response => 
-      response.url().includes(`api/v2/pim/employees`) &&
-      response.status() === 200
+      this.getPage.waitForResponse(
+        (response) => response.url().includes(`api/v2/pim/employees`) && response.status() === 200,
       ),
       this.waitForPageLoad(),
     ]);

@@ -19,6 +19,7 @@
       "@pages/*": ["./pages/*"],
       "@components/*": ["./components/*"],
       "@utils/*": ["./utils/*"],
+      "@data-test/*": ["./data-test/*"],
     },
 
     /* Language and Environment */

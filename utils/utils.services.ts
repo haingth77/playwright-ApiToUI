@@ -6,5 +6,12 @@ export class UtilsServices {
   public delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
+  public getDayMonthYear(date: string) {
+    const day = date.split('-')[2]
+    const month = date.split('-')[1]
+    const year = date.split('-')[0]
+    return {day, month, year}
+  }
 }
 export default new UtilsServices();

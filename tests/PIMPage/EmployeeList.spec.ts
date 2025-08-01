@@ -1,20 +1,11 @@
-import { LoginPage } from '@/pages/login.page';
-import { MenuPage } from '@/pages/menu.page';
-import { PIMPage } from '@/pages/pim.page';
-import { getUrl } from '@/utils/environment';
+import { LoginPage } from '@pages/login.page';
+import { MenuPage } from '@pages/menu.page';
+import { PIMPage } from '@pages/pim.page';
+import { getUrl } from '@utils/environment';
 import { test, expect } from '@playwright/test';
-import { UserInfor } from '@pages/pim.page';
-import { NotificationComponent } from '@/utils/notification.component';
-import UtilsServices from '@/utils/utils.services';
-
-const userTest: UserInfor = {
-  first_name: 'first7777',
-  middle_name: 'middle7777',
-  last_name: 'last7777',
-  employee_id: 7777,
-  username: 'test7777',
-  password: 'password7777',
-};
+import { UserInfo } from '@utils/interface.type';
+import { NotificationComponent } from '@utils/notification.component';
+import { userTest } from '@data-test/user.info';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -62,6 +53,8 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
     await test.step(`Step 6: Verify that user information is filled successfully`, async () => {
       await Promise.all([
         pimPage.waitForAPI('api/v2/pim/employees', 200, 'POST'),
+        pimPage.waitForPageLoad(),
+        pimPage.waitForAPI('api/v2/pim/employees', 200, 'GET'),
         pimPage.waitForPageLoad(),
       ]);
       await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
