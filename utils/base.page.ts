@@ -29,8 +29,10 @@ export class BasePage {
     await this._page.keyboard.press(keyboard);
   }
 
-  public async waitForPageLoad() {
-    await this._page.waitForLoadState();
+  public async waitForPageLoad(
+    state: 'load' | 'domcontentloaded' | 'networkidle' = 'domcontentloaded',
+  ) {
+    await this._page.waitForLoadState(state);
   }
 
   public async waitForAPI(

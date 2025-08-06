@@ -15,7 +15,6 @@ export class ElementWrapper {
   }
 
   public getElement() {
-    // let element =
     return this._locator;
   }
 
@@ -23,37 +22,55 @@ export class ElementWrapper {
     return await this.getElement().getAttribute(attribute);
   }
 
-  public async input(content: string) {
-    await this.getElement().clear({ force: true, timeout: 60000 });
-    await this.getElement().fill(content, { force: true, timeout: 60000 });
+  public async input(content: string, force = false) {
+    await this.getElement().clear({ force: force, timeout: 60000 });
+    await this.getElement().fill(content, { force: force, timeout: 60000 });
   }
 
   public async click(force = false) {
-    let retry = 0;
+    try {
+      // First, try to scroll element into view if it's outside viewport
+      await this.getElement().scrollIntoViewIfNeeded();
 
-    while (retry !== 3) {
-      try {
-        await this.getElement().click({ force: force, timeout: 60000 });
-        retry = 3;
-      } catch (error) {
-        if (
-          error instanceof Error &&
-          (error.message.includes('Element is outside') ||
-            error.message.includes('Element is not visible'))
-        ) {
-          await this._basePage.reloadPage();
-          await this._basePage.waitForPageLoad();
-          retry++;
-        } else {
-          throw error;
-        }
+      // Wait for element to be visible and stable
+      await this.getElement().waitFor({
+        state: 'visible',
+        timeout: 15000,
+      });
+
+      // Perform the click with reasonable timeout
+      await this.getElement().click({ force: force, timeout: 30000 });
+    } catch (error) {
+      // Only retry for specific, recoverable errors
+      if (
+        error instanceof Error &&
+        (error.message.includes('Element is outside') ||
+          error.message.includes('Element is not visible'))
+      ) {
+        console.log(`Click failed, retrying: ${error.message}`);
+
+        // Wait for any animations/transitions to complete
+        await this._basePage.getPage.waitForTimeout(2000);
+
+        // Retry once with scroll and wait
+        await this.getElement().scrollIntoViewIfNeeded();
+        await this.getElement().waitFor({
+          state: 'visible',
+          timeout: 10000,
+        });
+        await this.getElement().click({ force: force, timeout: 15000 });
+      } else {
+        throw error;
       }
     }
   }
 
-  public async check() {
-    await this.getElement().check({ force: true, timeout: 60000 });
+  public async check(force = false) {
+    // Usually don't need force: true for checkboxes
+    // Let Playwright ensure element is actionable first
+    await this.getElement().check({ force: force, timeout: 60000 });
   }
+
   public async checkByClick(force = false) {
     let isChecked = await this.getElement().isChecked();
 
@@ -61,6 +78,7 @@ export class ElementWrapper {
       await this.getElement().click({ force: force, timeout: 60000 });
     }
   }
+
   public async uncheckByClick(force = false) {
     let isChecked = await this.getElement().isChecked();
 
@@ -69,8 +87,8 @@ export class ElementWrapper {
     }
   }
 
-  public async uncheck() {
-    await this.getElement().uncheck({ force: true, timeout: 60000 });
+  public async uncheck(force = false) {
+    await this.getElement().uncheck({ force: force, timeout: 60000 });
   }
 
   public async waitForElementDisplay() {
