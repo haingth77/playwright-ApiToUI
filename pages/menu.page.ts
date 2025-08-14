@@ -74,6 +74,7 @@ export class MenuPage extends BasePage {
     `//li[@class='oxd-main-menu-item-wrapper']/a/span[text() = 'Buzz']`,
     this,
   );
+  btnHelper = new ElementWrapper(this.getPage.getByRole('button', { name: 'Helper' }), this);
 
   clickMenu: Record<MenuList, () => Promise<void>> = {
     Admin: async () => {
@@ -117,9 +118,9 @@ export class MenuPage extends BasePage {
   public async isMenuOpen(): Promise<boolean> {
     const status = await this.statusOpenMenu.getAttribute('class');
     if (status && status.includes('right')) {
-        return false
+      return false;
     } else if (status && status.includes('left')) {
-        return true
+      return true;
     }
     return false;
   }
@@ -127,7 +128,7 @@ export class MenuPage extends BasePage {
   public async accessToMenuItem(menuItem: MenuList) {
     const isMenuOpen = await this.isMenuOpen();
     if (!isMenuOpen) {
-        await this.btnOpenMenu.click()
+      await this.btnOpenMenu.click();
     }
     await this.clickMenu[menuItem]();
     await this.waitForPageLoad();
