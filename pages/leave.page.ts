@@ -5,8 +5,8 @@ import { userLeaveInfo } from '@data-test/leave.info';
 import { LeaveInfo } from '@/utils/interface.type';
 import utilsServices from '@/utils/utils.services';
 
-const dateFromString = utilsServices.getDayMonthYear(userLeaveInfo.from_date)
-const dateToString = utilsServices.getDayMonthYear(userLeaveInfo.to_date)
+const dateFromString = utilsServices.getDayMonthYear(userLeaveInfo.from_date);
+const dateToString = utilsServices.getDayMonthYear(userLeaveInfo.to_date);
 
 export class LeavePage extends BasePage {
   constructor(page: Page) {
@@ -26,21 +26,64 @@ export class LeavePage extends BasePage {
     this.getPage.getByRole('link', { name: 'Assign Leave' }),
     this,
   );
-  tbxEmployeeName = new ElementWrapper(this.getPage.locator('div', {hasText: 'Employee Name'}).getByPlaceholder('Type for hints...'), this)
-  ddbEmployeeName = new ElementWrapper(this.getPage.getByRole('listbox').getByRole('option').first(), this)
+  tbxEmployeeName = new ElementWrapper(
+    this.getPage.locator('div', { hasText: 'Employee Name' }).getByPlaceholder('Type for hints...'),
+    this,
+  );
+  ddbEmployeeName = new ElementWrapper(
+    this.getPage.getByRole('listbox').getByRole('option').first(),
+    this,
+  );
   ddbLeaveType = new ElementWrapper(this.getPage.getByText('-- Select --'), this);
-  tbtLeaveType = new ElementWrapper(this.getPage.getByText(userLeaveInfo.leave_type), this)
-  timeFromDate = new ElementWrapper(this.getPage.locator('div', {hasText: 'From Date'}).getByPlaceholder('placeholder'), this)
-  timeToDate = new ElementWrapper(this.getPage.locator('div', {hasText: 'To Date'}).getByPlaceholder('placeholder'), this)
-  btnYear = new ElementWrapper(`//li[contains(@class, 'calendar-selector-year')]`, this)
-  btnMonth = new ElementWrapper(`//li[contains(@class, 'calendar-selector-month')]`, this)
-//   tbxDay = new ElementWrapper(this.getPage.getByRole('generic', {name: getDayMonthYear(userLeaveInfo.from_date).day}), this)
-//   tbxMonth = new ElementWrapper(this.getPage.getByText(getDayMonthYear(userLeaveInfo.from_date).month), this)
-//   tbxYear = new ElementWrapper(this.getPage.getByText(getDayMonthYear(userLeaveInfo.from_date).year), this)
+  tbtLeaveType = new ElementWrapper(this.getPage.getByText(userLeaveInfo.leave_type), this);
+  timeFromDate = new ElementWrapper(
+    this.getPage
+      .locator('label', { hasText: 'From Date' })
+      .locator('..')
+      .locator('..')
+      .getByPlaceholder('yyyy-dd-mm'),
+    this,
+  );
+  timeToDate = new ElementWrapper(
+    this.getPage
+      .locator('label', { hasText: 'To Date' })
+      .locator('..')
+      .locator('..')
+      .getByPlaceholder('yyyy-dd-mm'),
+    this,
+  );
+  btnYear = new ElementWrapper(`//li[contains(@class, 'calendar-selector-year')]`, this);
+  btnMonth = new ElementWrapper(`//li[contains(@class, 'calendar-selector-month')]`, this);
+  btnClear = new ElementWrapper(this.getPage.getByText('Clear'), this);
+  txtRequired = new ElementWrapper(this.getPage.getByText('Required', {exact: true}), this);
+  ddbPartialDays = new ElementWrapper(
+    this.getPage
+      .locator('label', { hasText: 'Partial Days' })
+      .locator('..')
+      .locator('..')
+      .getByText('-- Select --'),
+    this,
+  );
+  optAllDays = new ElementWrapper(this.getPage.getByRole('option', {name: 'All Days'}), this)
+  ddbDuration = new ElementWrapper(
+    this.getPage
+      .locator('label', { hasText: 'Duration' })
+      .locator('..')
+      .locator('..')
+      .getByText('-- Select --'),
+    this,
+  );
+  optHalfDayAfternoon = new ElementWrapper(this.getPage.getByRole('option', {name: 'Half Day - Afternoon'}), this)
+  tbxComment = new ElementWrapper(this.getPage.locator('textarea'), this)
+  btnAssisn = new ElementWrapper(this.getPage.getByRole('button', {name: 'Assign'}), this)
+  btnOK = new ElementWrapper(this.getPage.getByRole('button', {name: 'Ok'}), this)
+  popupConfirmLeave = new ElementWrapper(this.getPage.getByText('Confirm Leave Assignment', {exact: true}), this)
 
-  public async fillTime(date: {day: string, month: string, year: string}) {
-    await this.getPage.getByRole('generic', {name: date.day}).click()
-    await this.getPage.getByRole('generic', {name: date.month}).click()
-    await this.getPage.getByRole('generic', {name: date.year}).click()
+  public async fillTime(date: { day: string; month: string; year: string }) {
+    await this.btnYear.click();
+    await this.getPage.getByText(date.year, { exact: true }).click();
+    await this.btnMonth.click();
+    await this.getPage.getByText(date.month, { exact: true }).click();
+    await this.getPage.getByText(date.day, { exact: true }).click();
   }
 }

@@ -57,6 +57,7 @@ export class LoginPage extends BasePage {
   }
 
   public async login(username: string, password: string) {
+    await this.waitForPageLoad();
     await this.btnUsername.input(username);
     await this.btnPassword.input(password);
     await this.btnLogin.click();

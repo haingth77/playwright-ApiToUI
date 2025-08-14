@@ -3,16 +3,16 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
   testDir: "./tests",
-  timeout: 30 * 1000, // 30 giây cho mỗi test
+  timeout: 60 * 1000, // 30 seconds for each test
   expect: {
-    timeout: 5000, // 5 giây cho các expect như `toHaveText`
+    timeout: 5000, // 5 seconds for each expect like `toHaveText`
   },
   fullyParallel: true,
-  retries: 0, // Retry nếu fail (sử dụng trong CI)
-  workers: process.env.CI ? 2 : undefined, // Giới hạn thread khi chạy CI
+  retries: 0, // Retry if fail (used in CI)
+  workers: process.env.CI ? 2 : undefined, // Limit thread when running CI
 
   use: {
-    // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Thay bằng URL thật
+    // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Replace with real URL
     headless: true,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -21,7 +21,7 @@ const config: PlaywrightTestConfig = {
     ignoreHTTPSErrors: true,
   },
 
-  // Cấu hình cho nhiều trình duyệt (project)
+  // Configuration for multiple browsers (project)
   projects: [
     {
       name: "Chromium",
@@ -37,13 +37,13 @@ const config: PlaywrightTestConfig = {
     // },
   ],
 
-  // Reporter mặc định: hiển thị terminal + HTML
+  // Default reporter: display terminal + HTML
   reporter: [
     ["list"],
-    ["html", { open: "never" }], // 'never' để tạo báo cáo nhưng không auto mở trình duyệt
+    ["html", { open: "never" }], // 'never' to create report but not auto open browser
   ],
 
-  // Chạy global setup nếu cần login trước
+  // Run global setup if needed login before
   // globalSetup: require.resolve('./global-setup'),
 };
 

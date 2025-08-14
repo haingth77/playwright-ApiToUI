@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import * as path from 'path';
 import * as fs from 'fs';
 import utilsServices from './utils.services';
+import { ElementWrapper } from './element.wrapper';
 
 export class BasePage {
   private _page: Page;
@@ -40,7 +41,7 @@ export class BasePage {
     status: number,
     method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
   ) {
-    this._page.waitForResponse(
+    return await this._page.waitForResponse(
       (response) =>
         response.url().includes(uri) &&
         response.status() === status &&
@@ -72,7 +73,24 @@ export class BasePage {
     const filepath = path.join(screenshotsDir, filename);
 
     await this._page.screenshot({ path: filepath, fullPage: true });
-    console.log(`📸 Screenshot saved: ${filepath}`);
+    console.log(`Screenshot saved: ${filepath}`);
+  }
+
+  public async handleOptionalPopup(
+    popupElement: ElementWrapper,
+    buttonElement: ElementWrapper,
+    timeout: number = 3000,
+  ): Promise<boolean> {
+    try {
+      await popupElement.getElement().waitFor({ state: 'visible', timeout });
+      await buttonElement.click();
+
+      // Wait for popup to disappear
+      await popupElement.getElement().waitFor({ state: 'hidden', timeout: 5000 });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
