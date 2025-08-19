@@ -1,27 +1,15 @@
 import { MenuPage } from '@pages/menu.page';
-import { LoginPage } from '@pages/login.page';
 import { LeavePage } from '@pages/leave.page';
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@fixtures/login.fixture';
 import utilsServices from '@/utils/utils.services';
 import { userLeaveInfo } from '@/data-test/leave.info';
 import { NotificationComponent } from '@/utils/notification.component';
 
 test.describe(`Verify Apply Page`, async () => {
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await test.step(`Step 1: Go to login page`, async () => {
-      await loginPage.gotoHomePage();
-    });
-
-    await test.step(`Step 2: Login with valid credentials`, async () => {
-      await loginPage.login('Admin', 'admin123');
-    });
-  });
-
-  test(`LEV-AL-001: Verify that 'Assign Leave' works successfully`, async ({ page }) => {
-    const leavePage = new LeavePage(page);
-    const menuPage = new MenuPage(page);
-    const notification = new NotificationComponent(page);
+  test(`LEV-AL-001: Verify that 'Assign Leave' works successfully`, async ({ loginPage }) => {
+    const leavePage = new LeavePage(loginPage.getPage);
+    const menuPage = new MenuPage(loginPage.getPage);
+    const notification = new NotificationComponent(loginPage.getPage);
     await test.step(`Step 1: Go to Leave page`, async () => {
       await menuPage.accessToMenuItem('Leave');
     });

@@ -20,6 +20,7 @@
       "@components/*": ["./components/*"],
       "@utils/*": ["./utils/*"],
       "@data-test/*": ["./data-test/*"],
+      "@fixtures/*": ["./fixtures/*"]
     },
 
     /* Language and Environment */

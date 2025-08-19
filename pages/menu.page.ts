@@ -74,7 +74,7 @@ export class MenuPage extends BasePage {
     `//li[@class='oxd-main-menu-item-wrapper']/a/span[text() = 'Buzz']`,
     this,
   );
-  btnHelper = new ElementWrapper(this.getPage.getByRole('button', { name: 'Helper' }), this);
+  btnHelper = new ElementWrapper(`//button[@title='Help']`, this);
 
   clickMenu: Record<MenuList, () => Promise<void>> = {
     Admin: async () => {

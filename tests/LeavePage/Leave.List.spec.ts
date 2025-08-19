@@ -2,26 +2,20 @@ import { LeavePage } from '@pages/leave.page';
 import { LoginPage } from '@pages/login.page';
 import { MenuPage } from '@pages/menu.page';
 import { NotificationComponent } from '@utils/notification.component';
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@fixtures/login.fixture';
 import { getUrl } from '@utils/environment';
 
-test.beforeEach(async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const menuPage = new MenuPage(page);
-  await loginPage.gotoHomePage();
-  await loginPage.login('Admin', 'admin123');
-  await menuPage.accessToMenuItem('Leave');
-});
+
 
 test.describe(`Verify Leave List page`, async () => {
   test(`LEV-LL-001: Verify that 'Leave List' is default page when access to Leave page`, async ({
-    page,
+    loginPage,
   }) => {
-    const leavePage = new LeavePage(page);
-    const notification = new NotificationComponent(page);
+    const leavePage = new LeavePage(loginPage.getPage);
+    const notification = new NotificationComponent(loginPage.getPage);
     await test.step(`Verify that 'Leave List' is selected as default`, async () => {
       await expect(leavePage.tabLeaveList.getElement().locator('..')).toHaveClass(/--visited/);
-      await expect(page).toHaveURL(`${getUrl()}/leave/viewLeaveList`);
+      await expect(loginPage.getPage).toHaveURL(`${getUrl()}/leave/viewLeaveList`);
     });
 
     await test.step(`Verify that there is a popup`, async () => {
