@@ -32,10 +32,7 @@ export class LoginPage extends BasePage {
     `//div[@class='orangehrm-login-form']/div/div/p[text() = 'Password : admin123' or text() = 'Password: admin123']`,
     this,
   );
-  btnForgtPassword = new ElementWrapper(
-    `//div[@class ='orangehrm-login-forgot']//p[text()= 'Forgot your password? ']`,
-    this,
-  );
+  btnForgtPassword = new ElementWrapper(this.getPage.getByText('Forgot your password?'), this);
 
   tltResetPassword = new ElementWrapper(
     `//form[@class = 'oxd-form']//h6[text() = 'Reset Password']`,
