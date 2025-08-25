@@ -1,11 +1,11 @@
-import { defineConfig, devices } from "@playwright/test";
-import type { PlaywrightTestConfig } from "@playwright/test";
+import { defineConfig, devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-  testDir: "./tests",
-  timeout: 60 * 1000, // 30 seconds for each test
+  testDir: './tests',
+  timeout: 120 * 1000, // 120 seconds for each test (increased for debugging)
   expect: {
-    timeout: 5000, // 5 seconds for each expect like `toHaveText`
+    timeout: 10000, // 10 seconds for each expect (increased)
   },
   fullyParallel: true,
   retries: 0, // Retry if fail (used in CI)
@@ -13,10 +13,10 @@ const config: PlaywrightTestConfig = {
 
   use: {
     // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Replace with real URL
-    headless: true,
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-    trace: "retain-on-failure",
+    headless: false, // Changed to false for debugging
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
   },
@@ -24,8 +24,8 @@ const config: PlaywrightTestConfig = {
   // Configuration for multiple browsers (project)
   projects: [
     {
-      name: "Chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: 'Chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
     // {
     //   name: "Firefox",
@@ -39,8 +39,8 @@ const config: PlaywrightTestConfig = {
 
   // Default reporter: display terminal + HTML
   reporter: [
-    ["list"],
-    ["html", { open: "never" }], // 'never' to create report but not auto open browser
+    ['list'],
+    ['html', { open: 'never' }], // 'never' to create report but not auto open browser
   ],
 
   // Run global setup if needed login before

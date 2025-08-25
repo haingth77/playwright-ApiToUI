@@ -99,12 +99,16 @@ export class ElementWrapper {
     await this.getElement().waitFor({ state: 'hidden', timeout: 60000 });
   }
 
+  public async textContent() {
+    return await this.getElement().textContent();
+  }
+
   public async getText() {
     return await this.getElement().textContent();
   }
 
-  public async inputValue() {
-    return await this.getElement().inputValue();
+  public async innerText() {
+    return await this.getElement().innerText();
   }
 
   public async setInputFiles(path: string | string[]) {

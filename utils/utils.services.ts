@@ -1,3 +1,6 @@
+import { Page } from "@playwright/test";
+import { ElementWrapper } from "./element.wrapper";
+
 export class UtilsServices {
   public async sanitizeFilename(filename: string) {
     return filename.replace(/[^a-zA-Z0-9]/g, "-");
@@ -12,6 +15,12 @@ export class UtilsServices {
     const month = date.split('-')[1]
     const year = date.split('-')[0]
     return {day, month, year}
+  }
+
+  public async uploadFile(page: Page, filePath: string) {
+    const fileChooserPromise = page.waitForEvent('filechooser')
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(filePath)
   }
 }
 export default new UtilsServices();

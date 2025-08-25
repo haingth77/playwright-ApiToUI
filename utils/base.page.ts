@@ -40,12 +40,14 @@ export class BasePage {
     uri: string,
     status: number,
     method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
+    timeout: number = 30000, // Default 30 seconds timeout
   ) {
     return await this._page.waitForResponse(
       (response) =>
         response.url().includes(uri) &&
         response.status() === status &&
         (method ? response.request().method() === method : true),
+      { timeout },
     );
   }
 
