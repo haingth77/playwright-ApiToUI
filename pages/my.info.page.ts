@@ -33,7 +33,7 @@ export class MyInfoPage extends BasePage {
   );
 
   btnAdd = new ElementWrapper(this.getPage.getByRole('button', { name: 'Add' }), this);
-  btnBrowse = new ElementWrapper(this.getPage.getByText('Browse'), this);
+  inputFile = new ElementWrapper(`//input[contains(@class, 'file-input')]`, this);
   txtFileName = new ElementWrapper(`//div[text() = 'Browse']/following::div[1]`, this);
   btnSave = new ElementWrapper(this.getPage.getByRole('button', { name: 'Save' }), this);
 }

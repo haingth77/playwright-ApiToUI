@@ -17,10 +17,8 @@ export class UtilsServices {
     return {day, month, year}
   }
 
-  public async uploadFile(page: Page, filePath: string) {
-    const fileChooserPromise = page.waitForEvent('filechooser')
-    const fileChooser = await fileChooserPromise
-    await fileChooser.setFiles(filePath)
+  public async uploadFileWithoutFileExplorer(inputFile: ElementWrapper, filePath: string,) {
+    inputFile.getElement().setInputFiles(filePath)
   }
 }
 export default new UtilsServices();
