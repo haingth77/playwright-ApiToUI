@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
 
   use: {
     // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Replace with real URL
-    headless: false, // Changed to false for debugging
+    headless: process.env.CI ? true : false, // Headless in CI, headed locally for debugging
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
