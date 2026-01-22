@@ -137,4 +137,16 @@ export class ElementWrapper {
   public async uploadFileName(filename: string | string[]) {
     await this.getElement().setInputFiles(filename);
   }
+
+  public async hoverCanvas() {
+    const box = await this.getElement().boundingBox();
+    if (!box) throw new Error('Canvas/ Svg/ Chart is not laid out');
+
+    const move = async (rx: number, ry: number) => {
+      await this._basePage.getPage.mouse.move(box.x + box.width * rx, box.y + box.height * ry);
+    };
+
+    await move(0.75, 0.5);
+    await expect(this.getElement()).toBeVisible({ timeout: 2000 });
+  }
 }

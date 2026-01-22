@@ -22,15 +22,13 @@ test.describe(`Verify My Info/ Personal Details page`, async () => {
     await test.step(`Step 3: Upload file`, async () => {
       await myInfoPage.btnAdd.click();
       await expect(myInfoPage.txtFileName.getElement()).toContainText('No file selected');
-      //   await myInfoPage.btnBrowse.click();
-      //   await utilsServices.uploadFileWithoutFileExplorer(myInfoPage.btnBrowse, filePath);
       await myInfoPage.inputFile.getElement().setInputFiles(filePath);
       await myInfoPage.getPage.waitForTimeout(100);
       await expect(myInfoPage.txtFileName.getElement()).toContainText(fileName);
     });
 
     await test.step(`Step 4: Click 'Save' button`, async () => {
-      await myInfoPage.btnSave.getElement().nth(2).click();
+      await myInfoPage.btnSaveList.getElement().nth(2).click();
     });
 
     await test.step(`Step 5: Verify that 'Successfully Saved' message is displayed`, async () => {
@@ -39,6 +37,14 @@ test.describe(`Verify My Info/ Personal Details page`, async () => {
       await expect(
         notification.getNotificationContent('Successfully Saved').getElement(),
       ).toBeVisible();
+    });
+
+    await test.step(`Step 6: Verify that file is uploaded successfully`, async () => {
+      await expect(myInfoPage.tableAttachmentBody.getElement()).toBeVisible();
+      await expect(myInfoPage.rowAttachmentLast.getElement()).toBeVisible();
+      await myInfoPage.getPage.waitForTimeout(1000);
+      await expect(myInfoPage.txtAttachmentLastRow.getElement()).toBeVisible();
+      await expect(myInfoPage.txtAttachmentLastRow.getElement()).toContainText(fileName);
     });
   });
 });

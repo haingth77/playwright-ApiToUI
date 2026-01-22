@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
   testDir: './tests',
   timeout: 120 * 1000, // 120 seconds for each test (increased for debugging)
   expect: {
-    timeout: 10000, // 10 seconds for each expect (increased)
+    timeout: 10_000, // 100 seconds for each expect (increased)
   },
   fullyParallel: true,
   retries: 0, // Retry if fail (used in CI)
@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
 
   use: {
     // baseURL: "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", // Replace with real URL
-    headless: process.env.CI ? true : false, // Headless in CI, headed locally for debugging
+    headless: true, // Always headless by default, use --headed flag to override
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',

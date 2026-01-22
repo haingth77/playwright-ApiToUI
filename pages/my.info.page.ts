@@ -35,5 +35,14 @@ export class MyInfoPage extends BasePage {
   btnAdd = new ElementWrapper(this.getPage.getByRole('button', { name: 'Add' }), this);
   inputFile = new ElementWrapper(`//input[contains(@class, 'file-input')]`, this);
   txtFileName = new ElementWrapper(`//div[text() = 'Browse']/following::div[1]`, this);
-  btnSave = new ElementWrapper(this.getPage.getByRole('button', { name: 'Save' }), this);
+  btnSaveList = new ElementWrapper(this.getPage.getByRole('button', { name: 'Save' }), this);
+  tableAttachmentBody = new ElementWrapper(`//div[@class = 'oxd-table-body']`, this);
+  rowAttachmentLast = new ElementWrapper(
+    `//div[@class = 'oxd-table-card'][last()]//div[contains(@class, 'oxd-table-row')]`,
+    this,
+  );
+  txtAttachmentLastRow = new ElementWrapper(
+    this.rowAttachmentLast.getElement().locator('xpath=//div[contains(@class, "oxd-table-cell")]').nth(1), // Direct children only
+    this,
+  );
 }

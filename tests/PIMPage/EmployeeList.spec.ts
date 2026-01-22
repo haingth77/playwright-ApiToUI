@@ -94,4 +94,27 @@ test.describe(`Verify actions in PIM / Employee List`, () => {
       ).not.toBeVisible();
     });
   });
+
+  test(`PIM-EL-003: Verify that deleting employee works successfully (check action)`, async ({ loginPage }) => {
+    const menuPage = new MenuPage(loginPage.getPage);
+    const pimPage = new PIMPage(loginPage.getPage);
+    const notification = new NotificationComponent(loginPage.getPage);
+    await test.step(`Step 1: Click on PIM menu button`, async () => {
+      await menuPage.accessToMenuItem('PIM');
+    })
+
+    await test.step(`Step 2: Get id of the first employee`, async () => {
+      const employeeId = await pimPage.txtEmployeeId.getText();
+      console.log(employeeId);
+    })
+
+    await test.step(`Step 3: Select the first employee`, async () => {
+      await pimPage.ckboxEmployee.check()
+    })
+
+    await test.step(`Step 4: Click on 'Delete' button`, async () => {
+      await pimPage.iconTrash.click();
+      await pimPage.btnConfirmDelete.click();
+    })
+  })
 });

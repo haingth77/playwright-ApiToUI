@@ -51,6 +51,11 @@ export class PIMPage extends BasePage {
     this.getPage.getByRole('button', { name: 'Yes, Delete' }),
     this,
   );
+  tableEmployeeList = new ElementWrapper(this.getPage.locator(`[role='rowgroup'][class='oxd-table-body']`), this)
+  txtEmployeeId = new ElementWrapper(this.tableEmployeeList.getElement().locator(`[class='oxd-table-card']`).nth(1).getByRole('row').getByRole('cell').nth(1).locator('div'), this)
+  ckboxEmployee = new ElementWrapper(this.tableEmployeeList.getElement().locator(`[class='oxd-table-card']`).nth(1).getByRole('row').getByRole('cell').nth(0).locator(`//span//i[contains(@class, 'checkbox-input-icon')]`), this)
+  iconTrash = new ElementWrapper(this.tableEmployeeList.getElement().locator(`[class='oxd-table-card']`).nth(1).getByRole('row').getByRole('cell').last().getByRole('button').nth(1), this)
+
   // Personal Details
 
   public async addEmployee() {
