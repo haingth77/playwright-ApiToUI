@@ -79,6 +79,18 @@ export class LeavePage extends BasePage {
   btnOK = new ElementWrapper(this.getPage.getByRole('button', {name: 'Ok'}), this)
   popupConfirmLeave = new ElementWrapper(this.getPage.getByText('Confirm Leave Assignment', {exact: true}), this)
 
+  optAddEntitlement = new ElementWrapper(this.getPage.getByRole('link', { name: 'Add Entitlement' }), this)
+  headerAddTo = new ElementWrapper(this.getPage.getByLabel('Add to'), this)
+  optIndividualEmployee = new ElementWrapper(this.getPage.getByLabel('Individual Employee'), this)
+  tbxEntEmployeeName = new ElementWrapper(
+    this.getPage.locator('div', { hasText: 'Employee Name' }).locator('..').getByPlaceholder('Type for hints...'),
+    this,
+  );
+  ddbEntEmployeeName = new ElementWrapper(
+    this.getPage.getByRole('listbox').getByRole('option').first(),
+    this,
+  )
+
   public async fillTime(date: { day: string; month: string; year: string }) {
     await this.btnYear.click();
     await this.getPage.getByText(date.year, { exact: true }).click();

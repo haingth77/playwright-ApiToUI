@@ -6,7 +6,7 @@ import { userLeaveInfo } from '@/data-test/leave.info';
 import { NotificationComponent } from '@/utils/notification.component';
 
 test.describe(`Verify Apply Page`, async () => {
-  test(`LEV-AL-001: Verify that 'Assign Leave' works successfully`, async ({ loginPage }) => {
+  test(`LEV-AL-002: Verify that 'Assign Leave' works successfully`, async ({ loginPage }) => {
     const leavePage = new LeavePage(loginPage.getPage);
     const menuPage = new MenuPage(loginPage.getPage);
     const notification = new NotificationComponent(loginPage.getPage);
