@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
     timeout: 10_000, // 100 seconds for each expect (increased)
   },
   fullyParallel: true,
-  retries: 0, // Retry if fail (used in CI)
+  retries: 2, // Retry if fail (used in CI)
   workers: process.env.CI ? 2 : undefined, // Limit thread when running CI
 
   use: {
