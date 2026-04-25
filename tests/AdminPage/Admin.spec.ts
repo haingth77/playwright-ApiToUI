@@ -21,7 +21,7 @@ test.describe(`Navigate Admin Page`, async() => {
       await menuPage.accessToMenuItem('Admin');
     });
 
-    await test.step('Step 4: Verify the Admin Page Title', async () => {
+    await test.step('Step: Verify the Admin Page Title', async () => {
       await expect(adminPage.txtAdminPageTitle.getElement()).toContainText('Admin');
       await expect(adminPage.formSystemUserFilter.getElement()).toBeVisible();
       await expect(adminPage.tableSystemUser.getElement()).toBeVisible();

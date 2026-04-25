@@ -14,15 +14,15 @@ test.describe(`Verify Leave List page`, async () => {
     const menuPage = new MenuPage(loginPage.getPage);
     const notification = new NotificationComponent(loginPage.getPage);
 
-    await test.step(`Step 1: Go to Leave page`, async () => {
+    await test.step(`Step: Go to Leave page`, async () => {
       await menuPage.accessToMenuItem('Leave');
     })
-    await test.step(`Step 2: Verify that 'Leave List' is selected as default`, async () => {
+    await test.step(`Step: Verify that 'Leave List' is selected as default`, async () => {
       await expect(leavePage.tabLeaveList.getElement().locator('..')).toHaveAttribute('class',/--visited/);
       await expect(loginPage.getPage).toHaveURL(`${getUrl()}/leave/viewLeaveList`);
     });
 
-    await test.step(`Step 3: Verify that there is a popup`, async () => {
+    await test.step(`Step: Verify that there is a popup`, async () => {
       await expect(notification.getNotificationTitle('Info').getElement()).toBeVisible();
       await expect(
         notification.getNotificationContent('No Records Found').getElement(),

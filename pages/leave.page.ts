@@ -16,7 +16,7 @@ export class LeavePage extends BasePage {
   tabApply = new ElementWrapper(this.getPage.getByRole('link', { name: 'Apply' }), this);
   tabMyLeave = new ElementWrapper(this.getPage.getByRole('link', { name: 'My Leave' }), this);
   tabEntitlements = new ElementWrapper(
-    this.getPage.getByRole('link', { name: 'Entitlements' }),
+    this.getPage.getByLabel('Topbar Menu').getByText('Entitlements', {exact: true}),
     this,
   );
   tabReports = new ElementWrapper(this.getPage.getByRole('link', { name: 'Reports' }), this);
@@ -37,19 +37,12 @@ export class LeavePage extends BasePage {
   ddbLeaveType = new ElementWrapper(this.getPage.getByText('-- Select --'), this);
   tbtLeaveType = new ElementWrapper(this.getPage.getByText(userLeaveInfo.leave_type), this);
   timeFromDate = new ElementWrapper(
-    this.getPage
-      .locator('label', { hasText: 'From Date' })
-      .locator('..')
-      .locator('..')
-      .getByPlaceholder('yyyy-dd-mm'),
+    this.getPage.getByRole('textbox', {name: 'yyyy-mm-dd'}).first(),
     this,
   );
   timeToDate = new ElementWrapper(
     this.getPage
-      .locator('label', { hasText: 'To Date' })
-      .locator('..')
-      .locator('..')
-      .getByPlaceholder('yyyy-dd-mm'),
+      .getByRole('textbox', {name: 'yyyy-mm-dd'}).nth(1),
     this,
   );
   btnYear = new ElementWrapper(`//li[contains(@class, 'calendar-selector-year')]`, this);
@@ -79,17 +72,20 @@ export class LeavePage extends BasePage {
   btnOK = new ElementWrapper(this.getPage.getByRole('button', {name: 'Ok'}), this)
   popupConfirmLeave = new ElementWrapper(this.getPage.getByText('Confirm Leave Assignment', {exact: true}), this)
 
-  optAddEntitlement = new ElementWrapper(this.getPage.getByRole('link', { name: 'Add Entitlement' }), this)
+  optAddEntitlement = new ElementWrapper(this.getPage.getByRole('menuitem', { name: 'Add Entitlements' }), this)
   headerAddTo = new ElementWrapper(this.getPage.getByLabel('Add to'), this)
   optIndividualEmployee = new ElementWrapper(this.getPage.getByLabel('Individual Employee'), this)
   tbxEntEmployeeName = new ElementWrapper(
     this.getPage.locator('div', { hasText: 'Employee Name' }).locator('..').getByPlaceholder('Type for hints...'),
     this,
   );
-  ddbEntEmployeeName = new ElementWrapper(
-    this.getPage.getByRole('listbox').getByRole('option').first(),
-    this,
-  )
+  headerEntitlement = new ElementWrapper(this.getPage.getByText('Entitlement', {exact: true}), this)
+  tbxEntitlement = new ElementWrapper(this.headerEntitlement.getElement().locator('..').locator('..').locator(`//div//input[contains(@class, 'oxd-input')]`), this)
+  btnSave = new ElementWrapper(this.getPage.getByRole('button', {name: 'Save'}), this)
+
+  tableHeaderEntitlement = new ElementWrapper(this.getPage.getByText('Updating Entitlement', {exact: true}), this)
+
+  btnConfirm = new ElementWrapper(this.getPage.getByRole('button', {name: ' Confirm '}), this)
 
   public async fillTime(date: { day: string; month: string; year: string }) {
     await this.btnYear.click();

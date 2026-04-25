@@ -11,17 +11,17 @@ test.describe(`Verify Dashboard page`, async () => {
     const dashboardPage = new DashboardPage(loginPage.getPage);
     const menuPage = new MenuPage(loginPage.getPage);
 
-    await test.step(`Step 1: Navigate to Dashboard page`, async () => {
+    await test.step(`Step: Navigate to Dashboard page`, async () => {
       await menuPage.accessToMenuItem('Dashboard');
     });
 
-    await test.step(`Step 2: Select 'Unassigned' in Employee Distribution chart`, async () => {
+    await test.step(`Step: Select 'Unassigned' in Employee Distribution chart`, async () => {
       await dashboardPage.waitForTimeout(5);
       await dashboardPage.undisplayEmployeeDistributionBy(
         dashboardPage.txtEmployeeDistributionByUnit,
       );
 
-      await test.step(`Step 3: Get amount of Unassigned employees by tooltip`, async () => {
+      await test.step(`Step: Get amount of Unassigned employees by tooltip`, async () => {
         await expect(dashboardPage.canvasEmployeeDistributionByUnit.getElement()).toBeVisible();
         await dashboardPage.canvasEmployeeDistributionByUnit.hoverCanvas();
         await dashboardPage.tooltip.waitForElementDisplay();

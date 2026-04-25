@@ -13,13 +13,13 @@ test.describe(`Verify My Info/ Personal Details page`, async () => {
     const myInfoPage = new MyInfoPage(loginPage.getPage);
     const notification = new NotificationComponent(loginPage.getPage);
     const filePath = path.join(process.cwd(), `data-test/${fileName}`);
-    await test.step(`Step 1: Navigate to My Info page`, async () => {
+    await test.step(`Step: Navigate to My Info page`, async () => {
       await menuPage.accessToMenuItem('My Info');
     });
-    await test.step(`Step 2: Click on Personal Details`, async () => {
+    await test.step(`Step: Click on Personal Details`, async () => {
       await myInfoPage.btnPersonalDetails.click();
     });
-    await test.step(`Step 3: Upload file`, async () => {
+    await test.step(`Step: Upload file`, async () => {
       await myInfoPage.btnAdd.click();
       await expect(myInfoPage.txtFileName.getElement()).toContainText('No file selected');
       await myInfoPage.inputFile.getElement().setInputFiles(filePath);
@@ -27,11 +27,11 @@ test.describe(`Verify My Info/ Personal Details page`, async () => {
       await expect(myInfoPage.txtFileName.getElement()).toContainText(fileName);
     });
 
-    await test.step(`Step 4: Click 'Save' button`, async () => {
+    await test.step(`Step: Click 'Save' button`, async () => {
       await myInfoPage.btnSaveList.getElement().nth(2).click();
     });
 
-    await test.step(`Step 5: Verify that 'Successfully Saved' message is displayed`, async () => {
+    await test.step(`Step: Verify that 'Successfully Saved' message is displayed`, async () => {
       await myInfoPage.waitForAPI('screen/personal/attachments', 200, 'POST');
       await expect(notification.getNotificationTitle('Success').getElement()).toBeVisible();
       await expect(
@@ -39,7 +39,7 @@ test.describe(`Verify My Info/ Personal Details page`, async () => {
       ).toBeVisible();
     });
 
-    await test.step(`Step 6: Verify that file is uploaded successfully`, async () => {
+    await test.step(`Step: Verify that file is uploaded successfully`, async () => {
       await expect(myInfoPage.tableAttachmentBody.getElement()).toBeVisible();
       await expect(myInfoPage.rowAttachmentLast.getElement()).toBeVisible();
       await myInfoPage.getPage.waitForTimeout(1000);

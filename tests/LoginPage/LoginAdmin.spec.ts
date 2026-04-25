@@ -58,15 +58,15 @@ test.describe(`Loggin Admin Account`, () => {
     page,
   }) => {
     const loginPage = new LoginPage(page);
-    await test.step('Step 1: Go to the login page', async () => {
+    await test.step('Step: Go to the login page', async () => {
       await loginPage.gotoHomePage();
     });
 
-    await test.step('Step 2: Click on "Forgot your password?" button', async () => {
+    await test.step('Step: Click on "Forgot your password?" button', async () => {
       await loginPage.forgotPassword();
     });
 
-    await test.step(`Step 3: Verify 'Forgot password' is displayed`, async () => {
+    await test.step(`Step: Verify 'Forgot password' is displayed`, async () => {
       await expect(loginPage.tltResetPassword.getElement()).toBeVisible();
       await expect(loginPage.btnResetPassword.getElement()).toBeEnabled();
     });

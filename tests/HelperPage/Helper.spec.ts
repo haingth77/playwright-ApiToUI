@@ -5,11 +5,11 @@ import { HelperPage } from '@pages/helper.page';
 test.describe(`Verify Helper Page`, async () => {
   test(`HELP-001: Verify that 'Helper' page is opened successfully`, async ({ loginPage }) => {
     const menuPage = new MenuPage(loginPage.getPage);
-    await test.step(`Step 1: Navigate to Dashboard page`, async () => {
+    await test.step(`Step: Navigate to Dashboard page`, async () => {
       await menuPage.accessToMenuItem('Dashboard');
     });
 
-    await test.step(`Step 2: Verify that 'Helper' page is opened successfully`, async () => {
+    await test.step(`Step: Verify that 'Helper' page is opened successfully`, async () => {
       const [newHelperPage] = await Promise.all([
         loginPage.getPage.context().waitForEvent('page'),
         menuPage.btnHelper.click(),

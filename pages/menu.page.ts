@@ -131,6 +131,6 @@ export class MenuPage extends BasePage {
       await this.btnOpenMenu.click();
     }
     await this.clickMenu[menuItem]();
-    await this.waitForPageLoad();
+    await this.waitForPageLoad('domcontentloaded');
   }
 }
